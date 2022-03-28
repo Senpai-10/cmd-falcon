@@ -62,6 +62,11 @@ export class Cli {
             }
 
             options.set(option.name, value);
+            /**
+             * TODO: remove option from this.args array
+             * and put all args into arguments map
+             * and send as a property to command.callback
+             */
           }
 
           command.callback(options);
