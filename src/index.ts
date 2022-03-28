@@ -46,39 +46,30 @@ export class Cli {
       this.args = this.args.slice(1);
       for (let i = 0; i < this.args.length; i++) {
         // find and args options
-        const options = new Map<string, I_command["options"]>();
+        const options = new Map<string, string>();
 
         if (command.options) {
-          if (command.options.find((option) => this.args[i] == option.name)) {
-            console.log(`${this.args[i]} is an option!`);
-            const option = this.args[i].split("=");
-            const value = this.args[i].split("=");
+          const option = command.options.find(
+            (option) => this.args[i].split("=")[0] == option.name
+          );
+          if (option) {
+            const value = this.args[i].split("=")[1];
 
-            console.log(option);
-            console.log(value);
+            if (value == undefined && !option.is_flag) {
+              // TODO: better error message!
+              console.log(`please provide ${option.name} value`);
+              return;
+            }
+
+            options.set(option.name, value);
           }
-        }
 
-        console.log(this.args[i]);
+          command.callback(options);
+        }
       }
     } else {
       this.help();
     }
-
-    // for (let i = 0; i < this.args.length; i++) {
-    //   for (let j = 0; j < this.commands.length; j++) {
-    //     const command = this.commands[j];
-    //     const arg = this.args[i];
-    //     if (this.args[0] == command.name) {
-    //       // find options and get value after '=' save options to Map<{name: string, etc...}>
-    //       console.log(arg);
-
-    //       command.callback();
-    //     } else {
-    //       this.help();
-    //     }
-    //   }
-    // }
   }
 
   private help() {
