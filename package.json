@@ -1,0 +1,15 @@
+{
+  "name": "cmd-parser",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "ts-node src/test/index.ts"
+  },
+  "repository": "https://github.com/Senpai-10/cmd-parser.git",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^17.0.23",
+    "ts-node": "^10.7.0",
+    "typescript": "^4.6.3"
+  }
+}
