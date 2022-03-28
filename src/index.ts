@@ -3,16 +3,17 @@ import chalk from "chalk";
 interface I_command {
   name: string;
   help: string;
-  args: [
+  args?: [
     {
       name: string;
       help: string;
       required: boolean;
     }
   ];
-  options: [
+  options?: [
     {
-      name: string;
+      name: `--${string}`;
+      alias?: `-${string}`;
       help: string;
       is_flag: boolean;
     }
