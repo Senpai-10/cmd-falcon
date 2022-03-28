@@ -1,12 +1,12 @@
 import chalk from "chalk";
 
 export class Cli {
-  description: string;
   name: string;
+  description: string;
 
   constructor(name: string, description: string) {
-    this.description = description;
     this.name = name;
+    this.description = description;
   }
 
   public command() {
