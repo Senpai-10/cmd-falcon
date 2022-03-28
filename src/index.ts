@@ -18,7 +18,7 @@ interface I_command {
       is_flag: boolean;
     }
   ];
-  callback: Function;
+  callback: (options: Map<string, string>) => void;
 }
 
 export class Cli {
