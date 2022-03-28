@@ -37,7 +37,9 @@ export class Cli {
     return this;
   }
 
-  help() {
+  public parse() {}
+
+  private help() {
     console.log(`${this.description}`);
   }
 }
