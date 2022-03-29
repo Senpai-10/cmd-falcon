@@ -1,5 +1,3 @@
-import chalk from "chalk";
-
 interface I_command {
   name: string;
   help: string;
@@ -22,10 +20,10 @@ interface I_command {
 }
 
 export class Cli {
-  name: string;
-  description: string;
-  args: Array<string>;
-  commands: Map<string, I_command>;
+  private name: string;
+  private description: string;
+  private args: Array<string>;
+  private commands: Map<string, I_command>;
 
   constructor(name: string, description: string) {
     this.name = name;
@@ -57,7 +55,7 @@ export class Cli {
 
             if (value == undefined && !option.is_flag) {
               // TODO: better error message!
-              console.log(`please provide ${option.name} value`);
+              console.log(`ERORR please provide ${option.name} value`);
               return;
             }
 
