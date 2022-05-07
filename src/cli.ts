@@ -27,7 +27,6 @@ export class Cli {
     config: Cli_config;
 
     constructor(cli_name: string, description: string, version: `${number}.${number}.${number}`, config?: Cli_config) {
-        // get args from process and remove first 2 items
         this.cmd_args = process.argv.splice(2);
         this.cli_name = cli_name.replace(/\s/g, "");
         this.description = description;
@@ -123,7 +122,7 @@ export class Cli {
                         parsed_options[option_obj!.name.long] = true;
                     }
                 } else if (arg.length == 1) {
-                    // handle if not a flag
+                    // TODO: handle if not a flag
                     let option = this.get_option_with_short_name(arg);
                     if (option == undefined) continue;
 
