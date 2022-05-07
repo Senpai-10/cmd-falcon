@@ -1,24 +1,46 @@
 {
   "name": "cmd-parser",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "A simple args parser for cli apps",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "files": [
+    "lib/**/*"
+  ],
   "scripts": {
     "build": "tsc",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "format": "prettier --write \"src/**/*.ts\"",
+    "lint": "tslint -p tsconfig.json",
+    "prepare": "yarn run build",
+    "prepublishOnly": "yarn run lint",
+    "preversion": "yarn run lint",
+    "version": "yarn run format && git add -A src",
+    "postversion": "git push && git push --tags"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/senpai-10/cmd-parser.git"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "cli",
+    "args",
+    "arguments",
+    "cmd"
+  ],
+  "author": {
+    "name": "senpai-10",
+    "url": "https://github.com/senpai-10/",
+    "email": "bmjfdrh@gmail.com"
+  },
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/senpai-10/cmd-parser/issues"
   },
   "homepage": "https://github.com/senpai-10/cmd-parser#readme",
   "devDependencies": {
+    "prettier": "^2.6.2",
+    "tslint": "^6.1.3",
+    "tslint-config-prettier": "^1.18.0",
     "typescript": "^4.6.4"
   }
 }
