@@ -1,13 +1,40 @@
 // Cli
 
+import { char } from "./char_type";
+interface Cli_config {
+    verbose_parsing: boolean;
+}
+
+interface Option {
+    name: {
+        long: `--${string}`;
+        short: `-${char}`;
+    };
+    is_flag: boolean;
+    description: string;
+}
+
+const default_cli_config: Cli_config = {
+    verbose_parsing: false,
+};
+
 export class Cli {
     private cmd_args: string[];
+    config: Cli_config;
 
-    constructor() {
+    constructor(config?: Cli_config) {
         // get args from process and remove first 2 items
         this.cmd_args = process.argv.splice(2);
+        this.config = config || default_cli_config;
     }
     // TODO add methods to add options
+
+    /**
+     * Example:
+     *      add_option("--test/-t", true, "Option description")
+     */
+    // todo: better to put parameters into option interface
+    public add_option(option: Option) {}
 
     /**
      * Parse command line arguments
