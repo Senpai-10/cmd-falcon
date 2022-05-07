@@ -1,0 +1,24 @@
+{
+  "name": "cmd-parser",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/senpai-10/cmd-parser.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/senpai-10/cmd-parser/issues"
+  },
+  "homepage": "https://github.com/senpai-10/cmd-parser#readme",
+  "devDependencies": {
+    "typescript": "^4.6.4"
+  }
+}
