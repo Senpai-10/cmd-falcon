@@ -7,6 +7,7 @@ export class Cli {
         // get args from process and remove first 2 items
         this.cmd_args = process.argv.splice(2);
     }
+    // TODO add methods to add options
 
     /**
      * Parse command line arguments
