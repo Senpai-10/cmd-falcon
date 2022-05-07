@@ -20,10 +20,10 @@ const default_cli_config: Cli_config = {
 
 export class Cli {
     private cmd_args: string[];
-    options: Map<string, Option>;
+    private options: Map<string, Option>;
     config: Cli_config;
 
-    constructor(config?: Cli_config) {
+    constructor(cli_name: string, description: string, version: `${number}.${number}.${number}`, config?: Cli_config) {
         // get args from process and remove first 2 items
         this.cmd_args = process.argv.splice(2);
         this.options = new Map();
@@ -43,7 +43,7 @@ export class Cli {
     /**
      * Parse command line arguments
      */
-    public parse(): void {
+    public parse() {
         //  Check if args array is empty
         //  if true print help and return void
         if (this.cmd_args.length == 0) {
@@ -65,6 +65,10 @@ export class Cli {
                 if (item is not a flag take the next index as value and jump after it 
                     or check if item contans '=')
         */
+
+        let parsed_options: { [key: string]: any } = {};
+
+        return parsed_options;
     }
 
     /** Print help message */
