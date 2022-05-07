@@ -20,11 +20,13 @@ const default_cli_config: Cli_config = {
 
 export class Cli {
     private cmd_args: string[];
+    options: Map<string, Option>;
     config: Cli_config;
 
     constructor(config?: Cli_config) {
         // get args from process and remove first 2 items
         this.cmd_args = process.argv.splice(2);
+        this.options = new Map();
         this.config = config || default_cli_config;
     }
     // TODO add methods to add options
@@ -34,7 +36,9 @@ export class Cli {
      *      add_option("--test/-t", true, "Option description")
      */
     // todo: better to put parameters into option interface
-    public add_option(option: Option) {}
+    public add_option(option: Option) {
+        this.options.set(option.name.long.substring(2), option);
+    }
 
     /**
      * Parse command line arguments
