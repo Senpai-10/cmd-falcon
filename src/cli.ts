@@ -38,6 +38,9 @@ export class Cli {
 
     /** Print help message */
     private help(): void {
-        // TODO: build help with provided args and options
+        // TODO build help message from provided args and options
+        // or build it in this.parse and append string to this.help message
+        // and use this method only from printing help_message
+        console.log("help message!");
     }
 }
