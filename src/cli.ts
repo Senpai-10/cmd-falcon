@@ -8,7 +8,7 @@ interface Cli_config {
 interface Option {
     name: {
         long: `--${string}`;
-        short: `-${char}`;
+        short?: `-${char}` | undefined;
     };
     is_flag: boolean;
     description: string;
