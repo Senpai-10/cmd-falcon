@@ -23,14 +23,14 @@ const default_cli_config: Cli_config = {
 export class Cli {
     private cmd_args: string[];
     private options: Map<string, Option>;
-    private readonly cli_name: string;
+    private readonly executable_name: string;
     private readonly description: string;
     private readonly version: `${number}.${number}.${number}`;
     config: Cli_config;
 
     constructor(cli_name: string, description: string, version: `${number}.${number}.${number}`, config?: Cli_config) {
         this.cmd_args = process.argv.splice(2);
-        this.cli_name = cli_name.replace(/\s/g, "");
+        this.executable_name = cli_name.replace(/\s/g, "");
         this.description = description;
         this.version = version;
         this.config = config || default_cli_config;
@@ -147,7 +147,7 @@ export class Cli {
 
     /** Print help message */
     private help(): void {
-        console.log(`Usage: ${this.cli_name} [options]`);
+        console.log(`Usage: ${this.executable_name} [options]`);
         console.log();
         console.log(`  ${colors.gray(this.description)}`);
 
