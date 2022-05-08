@@ -13,7 +13,7 @@ cli.add_option({
 });
 
 cli.add_option({
-    name: { long: "--verbose", short: "-v" },
+    name: { long: "--verbose" },
     is_flag: true,
     description: "test option",
 });
@@ -25,5 +25,3 @@ cli.add_option({
 });
 
 let parser = cli.parse();
-
-console.log(parser);
