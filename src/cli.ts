@@ -1,6 +1,8 @@
 // Cli
 
 import { char } from "./char_type";
+import * as colors from "chalk";
+
 interface Cli_config {
     verbose_parsing: boolean;
 }
@@ -84,7 +86,7 @@ export class Cli {
                 process.exit(0);
             }
             if (arg == "--version" || arg == "-v") {
-                console.log(`${this.cli_name}: ${this.version}`);
+                console.log(`${colors.yellowBright(this.version)}`);
                 process.exit(0);
             }
 
@@ -145,9 +147,18 @@ export class Cli {
 
     /** Print help message */
     private help(): void {
-        // TODO build help message from provided args and options
-        // or build it in this.parse and append string to this.help message
-        // and use this method only from printing help_message
-        console.log("help message!");
+        console.log(`Usage: ${this.cli_name} [options]`);
+        console.log();
+        console.log(`  ${colors.gray(this.description)}`);
+
+        console.log();
+        console.log();
+
+        console.log(`${colors.greenBright("Options:")}`);
+        for (const [key, value] of this.options.entries()) {
+            let short = (value.name.short && colors.yellowBright(value.name.short)) || "  ";
+            let is_flag = (value.is_flag && colors.green("flag ")) || "";
+            console.log(`\t${short}, ${colors.yellowBright(value.name.long)}\t${is_flag}${value.description}`);
+        }
     }
 }
