@@ -26,7 +26,7 @@ export class Cli {
     private readonly executable_name: string;
     private readonly description: string;
     private readonly version: `${number}.${number}.${number}`;
-    config: Cli_config;
+    private config: Cli_config;
 
     constructor(cli_name: string, description: string, version: `${number}.${number}.${number}`, config?: Cli_config) {
         this.cmd_args = process.argv.splice(2);
