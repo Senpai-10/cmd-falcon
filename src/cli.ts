@@ -112,7 +112,7 @@ export class Cli {
         //  if true print help and return void
         if (this.cmd_args.length == 0) {
             this.help();
-            return;
+            process.exit(0);
         }
 
         /** The returned object
