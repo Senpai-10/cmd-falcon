@@ -118,14 +118,14 @@ export class Cli {
 
                 if (arg.length > 1) {
                     for (const short_option of arg) {
-                        let option_obj = this.get_option_with_short_name(short_option);
+                        let option_obj = get_option_with_short_name(short_option, this.options);
                         if (option_obj == undefined) continue;
 
                         parsed_options[option_obj!.name.long] = true;
                     }
                 } else if (arg.length == 1) {
                     // TODO: handle if not a flag
-                    let option = this.get_option_with_short_name(arg);
+                    let option = get_option_with_short_name(arg, this.options);
                     if (option == undefined) continue;
 
                     parsed_options[option!.name.long] = true;
@@ -135,14 +135,6 @@ export class Cli {
         }
 
         return parsed_options;
-    }
-
-    private get_option_with_short_name(short_name: string): Option | undefined {
-        for (const [_, value] of this.options.entries()) {
-            if (value.name.short == `-${short_name}`) {
-                return value;
-            }
-        }
     }
 
     /** Print help message */
@@ -159,6 +151,14 @@ export class Cli {
             let short = (value.name.short && colors.yellowBright(value.name.short)) || "  ";
             let is_flag = (value.is_flag && colors.green("flag ")) || "";
             console.log(`\t${short}, ${colors.yellowBright(value.name.long)}\t${is_flag}${value.description}`);
+        }
+    }
+}
+
+function get_option_with_short_name(short_name: string, options: Map<string, Option>): Option | undefined {
+    for (const [_, value] of options.entries()) {
+        if (value.name.short == `-${short_name}`) {
+            return value;
         }
     }
 }
