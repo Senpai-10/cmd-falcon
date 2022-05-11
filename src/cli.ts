@@ -37,6 +37,10 @@ type Version = `${number}.${number}.${number}`;
 // note: (arg_name) is from args first item
 // + maybe change parsed_options name to parsed or something like this
 
+// TODO: add default value to options
+// TODO: add required to Option interface,
+//      and in the parser check if option is required or not if true panic and print '{option_name} is required'
+
 export class Cli {
     private cmd_args: string[];
     private options: Map<string, Option>;
@@ -94,6 +98,10 @@ export class Cli {
             process.exit(1);
         }
         this.options.set(long_name, option);
+    }
+
+    public add_argument() {
+        // TODO check if argument already exists in args and in options
     }
 
     /**
