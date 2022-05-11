@@ -27,6 +27,16 @@ const default_cli_config: Cli_config = {
 
 type Version = `${number}.${number}.${number}`;
 
+// TODO: parse arguments
+// add a new interface named Argument
+// add to Cli constructor args, args is an array if objects with type Argument
+// in parser method if cli_arg don't start with '-' or '--'
+// check if args is not empty if true
+// get first arg from args and then
+// run parsed_options[arg_name] = cli_arg
+// note: (arg_name) is from args first item
+// + maybe change parsed_options name to parsed or something like this
+
 export class Cli {
     private cmd_args: string[];
     private options: Map<string, Option>;
@@ -65,9 +75,9 @@ export class Cli {
         });
     }
 
-    /**
-     * Add new option to options Map
-     * @example
+    /** Option is an argument that starts with  '--' (long option) or '-' (short option)
+     * Option example: "--test", "-t"
+     * @usage
      *      cli.add_option({
      *          name: { long: "--test", short: "-t" },
      *          is_flag: true,
