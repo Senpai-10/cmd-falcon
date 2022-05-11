@@ -1,4 +1,4 @@
-import { Cli } from "cmd-parser";
+import { Cli } from "../src/index";
 
 const cli = new Cli("test cli", "just a test", "1.0.0", {
     verbose_parsing: true,
@@ -25,3 +25,5 @@ cli.add_option({
 });
 
 let parser = cli.parse();
+
+console.log(parser);
