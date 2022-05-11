@@ -3,45 +3,57 @@
 import { char } from "./char_type";
 import * as colors from "chalk";
 
-interface Cli_config {
-    verbose_parsing: boolean;
-}
-
 interface Option {
     name: {
+        /** @example '--test' */
         long: `--${string}`;
+        /** @example '-t' */
         short?: `-${char}` | undefined;
     };
+    /** If true the option value is boolean */
     is_flag: boolean;
+    /** Add a short description for your option */
     description: string;
+}
+
+interface Cli_config {
+    /** Print parser info */
+    verbose_parsing: boolean;
 }
 
 const default_cli_config: Cli_config = {
     verbose_parsing: false,
 };
 
+type Version = `${number}.${number}.${number}`;
+
 export class Cli {
     private cmd_args: string[];
     private options: Map<string, Option>;
     private readonly executable_name: string;
     private readonly description: string;
-    private readonly version: `${number}.${number}.${number}`;
+    private readonly version: Version;
     private config: Cli_config;
 
-    constructor(cli_name: string, description: string, version: `${number}.${number}.${number}`, config?: Cli_config) {
+    constructor(cli_name: string, description: string, version: Version, config?: Cli_config) {
+        // Remove first 2 items from args array
         this.cmd_args = process.argv.splice(2);
+        // Remove empty space
         this.executable_name = cli_name.replace(/\s/g, "");
         this.description = description;
         this.version = version;
+        // Use default config if config parameter is not undefined
         this.config = config || default_cli_config;
+
         this.options = new Map();
+        // Add default options help, version
         this.options.set("help", {
             name: {
                 long: "--help",
                 short: "-h",
             },
             is_flag: true,
-            description: "Print this help message and exit",
+            description: "Print this message and exit",
         });
         this.options.set("version", {
             name: {
@@ -55,14 +67,23 @@ export class Cli {
 
     /**
      * Add new option to options Map
+     * @example
+     *      cli.add_option({
+     *          name: { long: "--test", short: "-t" },
+     *          is_flag: true,
+     *          description: "test option",
+     *      })
      */
     public add_option(option: Option) {
         // TODO: also check if short name does already exists
-        if (this.options.has(option.name.long.substring(2))) {
-            console.log(`error: '${option.name.long.substring(2)}' You can't add an option that already exists!`);
+        // Remove '--' from option long name
+        let long_name = option.name.long.substring(2);
+
+        if (this.options.has(long_name)) {
+            console.log(`error: '${long_name}' You can't add an option that already exists!`);
             process.exit(1);
         }
-        this.options.set(option.name.long.substring(2), option);
+        this.options.set(long_name, option);
     }
 
     /**
@@ -76,6 +97,9 @@ export class Cli {
             return;
         }
 
+        /** The returned object
+         *  if option is found the option long name will be put into this object
+         */
         var parsed_options: { [key: string]: boolean | string } = {};
 
         for (let i = 0; i < this.cmd_args.length; i++) {
@@ -90,7 +114,7 @@ export class Cli {
                 process.exit(0);
             }
 
-            // TODO: refactor
+            // TODO: refactor if arg.startsWith("--") and if arg.startsWith("-")
             if (arg.startsWith("--")) {
                 let arg_long_name = arg.substring(2);
                 var value = arg_long_name.split("=")[1];
@@ -114,8 +138,17 @@ export class Cli {
             }
 
             if (arg.startsWith("-")) {
+                // short option name without '-'
                 arg = arg.split("=")[0].substring(1);
 
+                // Check if the argument length is > 1
+                // If true that means that the argument contains more options (Like this: -tvpm)
+                // 1. Loop through argument string ("-tvpm")
+                // 2. check if option is valid if true
+                // 3. add option to parsed_options with true value
+
+                // note: non flag option (option that need a value other than boolean)
+                //       are not allowd in this compact form
                 if (arg.length > 1) {
                     for (const short_option of arg) {
                         let option_obj = get_option_with_short_name(short_option, this.options);
@@ -147,7 +180,7 @@ export class Cli {
         console.log();
 
         console.log(`${colors.greenBright("Options:")}`);
-        for (const [key, value] of this.options.entries()) {
+        for (const [_, value] of this.options.entries()) {
             let short = (value.name.short && colors.yellowBright(value.name.short)) || "  ";
             let is_flag = (value.is_flag && colors.green("flag ")) || "";
             console.log(`\t${short}, ${colors.yellowBright(value.name.long)}\t${is_flag}${value.description}`);
@@ -155,6 +188,12 @@ export class Cli {
     }
 }
 
+// TODO (get_option_with_short_name): make the function more generic maybe accept a name_type enum (name_type.Short, name_type.Long)
+
+/** use short name to get option object
+ * in case that option does not exist
+ * return undefined
+ */
 function get_option_with_short_name(short_name: string, options: Map<string, Option>): Option | undefined {
     for (const [_, value] of options.entries()) {
         if (value.name.short == `-${short_name}`) {
