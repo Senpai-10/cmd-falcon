@@ -118,7 +118,8 @@ export class Cli {
         /** The returned object
          *  if option is found the option long name will be put into this object
          */
-        var parsed_options: { [key: string]: boolean | string } = {};
+        // var parsed_options: { [key: string]: boolean | string } = {};
+        var parsed_options: any = {};
 
         for (let i = 0; i < this.cmd_args.length; i++) {
             let arg = this.cmd_args[i];
