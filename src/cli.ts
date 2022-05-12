@@ -1,4 +1,29 @@
-// Cli
+/*
+┌──────────────────────────────────────────────────────────────┐
+|                                                              |
+│    Terms:                                                    │
+│       Option                                                 |
+│           is an argv item that starts with '--' or '-'       |
+│           example: '--name=foo' '-n=foo'                     |
+|           parser.name equal to 'foo'                         |
+│                                                              |
+│       Argument                                               |
+|           is an item of information                          |
+|           provided to a program when it is started           |
+|                                                              |
+│       Flag                                                   |
+│           is an argv item that starts with '--' or '-'       |
+|            but don't take any type of value                  |
+|            example: '--test' '-t'                            |
+|            parser.test equal true if found                   |
+|                                                              |
+└──────────────────────────────────────────────────────────────┘
+*/
+
+// TODO obey by Terms
+//      add     add_flag
+//      add     add_argument
+//      change  add_option to only add options not flags
 
 import { char } from "./char_type";
 import * as colors from "chalk";
@@ -135,22 +160,22 @@ export class Cli {
 
             // TODO: refactor if arg.startsWith("--") and if arg.startsWith("-")
             if (arg.startsWith("--")) {
-                let arg_long_name = arg.substring(2);
-                var value = arg_long_name.split("=")[1];
-                arg_long_name = arg_long_name.split("=")[0];
+                arg = arg.substring(2);
+                let name = arg.split("=")[0];
+                var value = arg.split("=")[1];
 
-                let option = this.options.get(arg_long_name);
+                let option = this.options.get(name);
                 if (option == undefined) continue;
 
                 if (option.is_flag) {
-                    parsed_options[arg_long_name] = true;
+                    parsed_options[name] = true;
                 } else {
                     if (!value) {
                         console.log(`error: '${arg.split("=")[0]}' requires a value`);
                         process.exit(1);
                     }
 
-                    parsed_options[arg_long_name] = value;
+                    parsed_options[name] = value;
                 }
 
                 continue;
@@ -173,14 +198,23 @@ export class Cli {
                         let option_obj = get_option_with_short_name(short_option, this.options);
                         if (option_obj == undefined) continue;
 
-                        parsed_options[option_obj!.name.long] = true;
+                        // Why? because The option value is going to be 'true'
+                        if (option_obj.is_flag == false) {
+                            continue;
+                        }
+
+                        let name = option_obj!.name.long.substring(2);
+
+                        parsed_options[name] = true;
                     }
                 } else if (arg.length == 1) {
-                    // TODO: handle if not a flag
+                    // TODO: handle if argument
                     let option = get_option_with_short_name(arg, this.options);
                     if (option == undefined) continue;
 
-                    parsed_options[option!.name.long] = true;
+                    let name = option!.name.long.substring(2);
+
+                    parsed_options[name] = true;
                 }
                 continue;
             }
