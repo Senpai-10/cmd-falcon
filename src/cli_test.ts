@@ -30,4 +30,4 @@ cli.add_option({
 
 let parser: parsed = cli.parse();
 
-console.log(parser.name);
+console.log(parser);
