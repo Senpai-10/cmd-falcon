@@ -25,32 +25,14 @@
 //      add     add_argument
 //      change  add_option to only add options not flags
 
-import { char } from "./char_type";
 import * as colors from "chalk";
-
-interface Option {
-    name: {
-        /** @example '--test' */
-        long: `--${string}`;
-        /** @example '-t' */
-        short?: `-${char}` | undefined;
-    };
-    /** If true the option value is boolean */
-    is_flag: boolean;
-    /** Add a short description for your option */
-    description: string;
-}
-
-interface Cli_config {
-    /** Print parser info */
-    verbose_parsing: boolean;
-}
+import { Cli_config, Option } from "./interfaces";
+import { Version } from "./types";
+import { get_option_with_short_name } from "./utils";
 
 const default_cli_config: Cli_config = {
     verbose_parsing: false,
 };
-
-type Version = `${number}.${number}.${number}`;
 
 // TODO: parse arguments
 // add a new interface named Argument
@@ -237,20 +219,6 @@ export class Cli {
             let short = (value.name.short && colors.yellowBright(value.name.short)) || "  ";
             let is_flag = (value.is_flag && colors.green("flag ")) || "";
             console.log(`\t${short}, ${colors.yellowBright(value.name.long)}\t${is_flag}${value.description}`);
-        }
-    }
-}
-
-// TODO (get_option_with_short_name): make the function more generic maybe accept a name_type enum (name_type.Short, name_type.Long)
-
-/** use short name to get option object
- * in case that option does not exist
- * return undefined
- */
-function get_option_with_short_name(short_name: string, options: Map<string, Option>): Option | undefined {
-    for (const [_, value] of options.entries()) {
-        if (value.name.short == `-${short_name}`) {
-            return value;
         }
     }
 }

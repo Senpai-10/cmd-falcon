@@ -1,3 +1,6 @@
+export type Version = `${number}.${number}.${number}`;
+export type Option_name = "long" | "short";
+
 export type char =
     | "a"
     | "b"
