@@ -9,6 +9,8 @@ export interface Option {
     };
     /** If true the option value is boolean */
     is_flag: boolean;
+    /** Default value for options if value is not found */
+    default?: string;
     /** Add a short description for your option */
     description: string;
 }
