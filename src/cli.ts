@@ -28,7 +28,7 @@
 import * as colors from "chalk";
 import { Cli_config, Option } from "./interfaces";
 import { Version } from "./types";
-import { find_option, crash_if_required } from "./utils";
+import { find_option } from "./utils";
 
 const default_cli_config: Cli_config = {
     verbose_parsing: false,
@@ -178,7 +178,6 @@ export class Cli {
                         let option = find_option(short_option, "short", this.options);
                         if (option == undefined) continue;
                         let name = option!.name.long.substring(2);
-                        crash_if_required(name, option.required);
 
                         // Why? because The option value is going to be 'true'
                         if (option.is_flag == false && !option.default) {
