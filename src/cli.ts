@@ -191,7 +191,7 @@ export class Cli {
                     }
                 } else if (arg.length == 1) {
                     // TODO: handle if argument
-                    let option = get_option_with_short_name(arg, this.options);
+                    let option = find_option(arg, "short", this.options);
                     if (option == undefined) continue;
 
                     let name = option!.name.long.substring(2);
