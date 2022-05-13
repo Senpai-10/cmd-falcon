@@ -11,7 +11,7 @@ export interface Option {
     is_flag: boolean;
     /** Default value for options if value is not found */
     default?: string;
-    /** Add a short description for your option */
+    /** Add a short description for your option/flag */
     description: string;
 }
 
