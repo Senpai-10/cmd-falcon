@@ -102,11 +102,14 @@ export class Cli {
             console.log(`error: '${long_name}' You can't add an option that already exists!`);
             process.exit(1);
         }
+
         this.options.set(long_name, option);
+        return this;
     }
 
     public add_argument() {
         // TODO check if argument already exists in args and in options
+        return this;
     }
 
     /**
