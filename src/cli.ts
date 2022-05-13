@@ -44,10 +44,6 @@ const default_cli_config: Cli_config = {
 // note: (arg_name) is from args first item
 // + maybe change parsed_options name to parsed or something like this
 
-// TODO: add default value to options
-// TODO: add required to Option interface,
-//      and in the parser check if option is required or not if true panic and print '{option_name} is required'
-
 export class Cli {
     private cmd_args: string[];
     private options: Map<string, Option>;
@@ -142,6 +138,7 @@ export class Cli {
 
             // TODO: refactor if arg.startsWith("--") and if arg.startsWith("-")
             // TODO: if option value is not provided check if option has a default value if so use it
+            // TODO: check if option/flag is required if true print '{option_name} is required' and exit with error code 1
             if (arg.startsWith("--")) {
                 arg = arg.substring(2);
                 let name = arg.split("=")[0];
