@@ -28,7 +28,7 @@
 import * as colors from "chalk";
 import { Cli_config, Option } from "./interfaces";
 import { Version } from "./types";
-import { find_option } from "./utils";
+import { find_option, crash_if_required } from "./utils";
 
 const default_cli_config: Cli_config = {
     verbose_parsing: false,
@@ -175,15 +175,16 @@ export class Cli {
                 // note: options are not allowd in this compact form
                 if (arg.length > 1) {
                     for (const short_option of arg) {
-                        let option_obj = find_option(short_option, "short", this.options);
-                        if (option_obj == undefined) continue;
-                        let name = option_obj!.name.long.substring(2);
+                        let option = find_option(short_option, "short", this.options);
+                        if (option == undefined) continue;
+                        let name = option!.name.long.substring(2);
+                        crash_if_required(name, option.required);
 
                         // Why? because The option value is going to be 'true'
-                        if (option_obj.is_flag == false && !option_obj.default) {
+                        if (option.is_flag == false && !option.default) {
                             continue;
-                        } else if (option_obj.default) {
-                            this.opts[name] = option_obj.default;
+                        } else if (option.default) {
+                            this.opts[name] = option.default;
                             continue;
                         }
 

@@ -1,6 +1,7 @@
 // Utility Functions
 
 import { Option } from "./interfaces";
+import { red } from "chalk";
 import { Option_name } from "./types";
 
 /**
@@ -16,4 +17,11 @@ export function find_option(name: string, type: Option_name, options: Map<string
             return value;
         }
     }
+}
+
+export function crash_if_required(argument_name: string, required: boolean | undefined) {
+    if (!required) return;
+
+    console.log(`${argument_name} is ${red("required")}`);
+    process.exit(1);
 }
