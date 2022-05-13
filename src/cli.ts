@@ -141,6 +141,7 @@ export class Cli {
             }
 
             // TODO: refactor if arg.startsWith("--") and if arg.startsWith("-")
+            // TODO: if option value is not provided check if option has a default value if so use it
             if (arg.startsWith("--")) {
                 arg = arg.substring(2);
                 let name = arg.split("=")[0];
