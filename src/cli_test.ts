@@ -25,7 +25,8 @@ cli.add_option({
 cli.add_option({
     name: { long: "--name", short: "-n" },
     is_flag: false,
-    description: "test option",
+    default: "senpai-10",
+    description: "get username",
 });
 
 let parser: parsed = cli.parse();
