@@ -14,21 +14,21 @@ cli.add_option({
     name: { long: "--test", short: "-t" },
     is_flag: true,
     description: "test option",
-});
+})
+    .add_option({
+        name: { long: "--verbose" },
+        is_flag: true,
+        description: "test option",
+    })
+    .add_option({
+        name: { long: "--name", short: "-n" },
+        is_flag: false,
+        default: "senpai-10",
+        description: "get username",
+    });
 
-cli.add_option({
-    name: { long: "--verbose" },
-    is_flag: true,
-    description: "test option",
-});
+cli.parse();
 
-cli.add_option({
-    name: { long: "--name", short: "-n" },
-    is_flag: false,
-    default: "senpai-10",
-    description: "get username",
-});
+let opts: parsed = cli.opts;
 
-let parser: parsed = cli.parse();
-
-console.log(parser);
+console.log(opts);
