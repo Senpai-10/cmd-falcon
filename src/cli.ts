@@ -136,7 +136,6 @@ export class Cli {
             }
 
             // TODO: refactor if arg.startsWith("--") and if arg.startsWith("-")
-            // TODO: if option value is not provided check if option has a default value if so use it
             // TODO: check if option/flag is required if true print '{option_name} is required' and exit with error code 1
             if (arg.startsWith("--")) {
                 arg = arg.substring(2);
@@ -149,9 +148,13 @@ export class Cli {
                 if (option.is_flag) {
                     this.opts[name] = true;
                 } else {
-                    if (!value) {
+                    if (!value && !option.default) {
                         console.log(`error: '${arg.split("=")[0]}' requires a value`);
                         process.exit(1);
+                    } else if (!value && option.default) {
+                        this.opts[name] = option.default;
+
+                        continue;
                     }
 
                     this.opts[name] = value;
@@ -160,6 +163,7 @@ export class Cli {
                 continue;
             } else if (arg.startsWith("-")) {
                 // short option name without '-'
+                let value = arg.split("=")[1];
                 arg = arg.split("=")[0].substring(1);
 
                 // Check if the flag length is > 1
@@ -173,23 +177,36 @@ export class Cli {
                     for (const short_option of arg) {
                         let option_obj = find_option(short_option, "short", this.options);
                         if (option_obj == undefined) continue;
+                        let name = option_obj!.name.long.substring(2);
 
                         // Why? because The option value is going to be 'true'
-                        if (option_obj.is_flag == false) {
+                        if (option_obj.is_flag == false && !option_obj.default) {
+                            continue;
+                        } else if (option_obj.default) {
+                            this.opts[name] = option_obj.default;
                             continue;
                         }
-
-                        let name = option_obj!.name.long.substring(2);
 
                         this.opts[name] = true;
                     }
                 } else if (arg.length == 1) {
                     let option = find_option(arg, "short", this.options);
                     if (option == undefined) continue;
-
                     let name = option!.name.long.substring(2);
 
-                    this.opts[name] = true;
+                    if (option.is_flag) {
+                        this.opts[name] = true;
+                    } else {
+                        if (!value && !option.default) {
+                            console.log(`error: '${arg.split("=")[0]}' requires a value`);
+                            process.exit(1);
+                        } else if (!value && option.default) {
+                            this.opts[name] = option.default;
+                            continue;
+                        }
+
+                        this.opts[name] = value;
+                    }
                 }
                 continue;
             } else {
