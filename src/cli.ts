@@ -215,8 +215,15 @@ export class Cli {
         console.log(`${colors.greenBright("Options:")}`);
         for (const [_, value] of this.options.entries()) {
             let short = (value.name.short && colors.yellowBright(value.name.short)) || "  ";
-            let is_flag = (value.is_flag && colors.green("flag ")) || "";
-            console.log(`\t${short}, ${colors.yellowBright(value.name.long)}\t${is_flag}${value.description}`);
+            let long_name = colors.yellowBright(value.name.long);
+            let description = colors.gray(value.description);
+
+            if (value.is_flag) {
+                console.log(`\t${short}, ${long_name}\t${colors.green("flag ")}\n\t\t${description}`);
+            } else if (value.is_flag == false) {
+                let default_value = (value.default && `[default: ${value.default}] `) || "";
+                console.log(`\t${short}, ${long_name}\t${default_value}\n\t\t${description}`);
+            }
         }
     }
 }
