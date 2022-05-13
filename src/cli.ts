@@ -45,6 +45,7 @@ const default_cli_config: Cli_config = {
 // + maybe change parsed_options name to parsed or something like this
 
 export class Cli {
+    public opts: any;
     private cmd_args: string[];
     private options: Map<string, Option>;
     private readonly executable_name: string;
@@ -53,6 +54,7 @@ export class Cli {
     private config: Cli_config;
 
     constructor(cli_name: string, description: string, version: Version, config?: Cli_config) {
+        this.opts = {};
         // Remove first 2 items from args array
         this.cmd_args = process.argv.splice(2);
         // Remove empty space
@@ -118,12 +120,6 @@ export class Cli {
             process.exit(0);
         }
 
-        /** The returned object
-         *  if option is found the option long name will be put into this object
-         */
-        // var parsed_options: { [key: string]: boolean | string } = {};
-        var parsed_options: any = {};
-
         for (let i = 0; i < this.cmd_args.length; i++) {
             let arg = this.cmd_args[i];
 
@@ -148,14 +144,14 @@ export class Cli {
                 if (option == undefined) continue;
 
                 if (option.is_flag) {
-                    parsed_options[name] = true;
+                    this.opts[name] = true;
                 } else {
                     if (!value) {
                         console.log(`error: '${arg.split("=")[0]}' requires a value`);
                         process.exit(1);
                     }
 
-                    parsed_options[name] = value;
+                    this.opts[name] = value;
                 }
 
                 continue;
@@ -182,7 +178,7 @@ export class Cli {
 
                         let name = option_obj!.name.long.substring(2);
 
-                        parsed_options[name] = true;
+                        this.opts[name] = true;
                     }
                 } else if (arg.length == 1) {
                     let option = find_option(arg, "short", this.options);
@@ -190,15 +186,13 @@ export class Cli {
 
                     let name = option!.name.long.substring(2);
 
-                    parsed_options[name] = true;
+                    this.opts[name] = true;
                 }
                 continue;
             } else {
                 // handle arguments here!
             }
         }
-
-        return parsed_options;
     }
 
     /** Print help message */
