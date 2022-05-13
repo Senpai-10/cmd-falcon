@@ -161,20 +161,17 @@ export class Cli {
                 }
 
                 continue;
-            }
-
-            if (arg.startsWith("-")) {
+            } else if (arg.startsWith("-")) {
                 // short option name without '-'
                 arg = arg.split("=")[0].substring(1);
 
-                // Check if the argument length is > 1
-                // If true that means that the argument contains more options (Like this: -tvpm)
-                // 1. Loop through argument string ("-tvpm")
-                // 2. check if option is valid if true
-                // 3. add option to parsed_options with true value
+                // Check if the flag length is > 1
+                // If true that means that the flag contains more flags (Like this: -tvpm)
+                // 1. Loop through flag string ("-tvpm")
+                // 2. check if flag is valid
+                // 3. add flag to parsed_options with true value
 
-                // note: non flag option (option that need a value other than boolean)
-                //       are not allowd in this compact form
+                // note: options are not allowd in this compact form
                 if (arg.length > 1) {
                     for (const short_option of arg) {
                         let option_obj = find_option(short_option, "short", this.options);
@@ -190,7 +187,6 @@ export class Cli {
                         parsed_options[name] = true;
                     }
                 } else if (arg.length == 1) {
-                    // TODO: handle if argument
                     let option = find_option(arg, "short", this.options);
                     if (option == undefined) continue;
 
@@ -199,6 +195,8 @@ export class Cli {
                     parsed_options[name] = true;
                 }
                 continue;
+            } else {
+                // handle arguments here!
             }
         }
 
