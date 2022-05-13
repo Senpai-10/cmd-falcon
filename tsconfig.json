@@ -1,13 +1,12 @@
 {
-  "compilerOptions": {
-    "target": "es5",
-    "module": "commonjs",
-    "lib": ["es2017", "es7", "es6", "dom"],
-    "declaration": true,
-    "outDir": "lib",
-    "strict": true,
-    "esModuleInterop": true
-  },
-  "include": ["src/*.ts"],
-  "exclude": ["node_modules", "lib"]
+    "compilerOptions": {
+        "target": "ES6",
+        "module": "commonjs",
+        "declaration": true,
+        "types": ["node"],
+        "outDir": "./lib",
+        "strict": true
+    },
+    "include": ["src"],
+    "exclude": ["node_modules", "**/__tests__/*"]
 }
