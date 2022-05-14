@@ -46,17 +46,17 @@ const default_cli_config: Cli_config = {
 
 export class Cli {
     public opts: any;
-    private cmd_args: string[];
+    private args: string[];
     private options: Map<string, Option>;
     private readonly executable_name: string;
     private readonly description: string;
     private readonly version: Version;
     private config: Cli_config;
 
-    constructor(cli_name: string, description: string, version: Version, config?: Cli_config) {
+    constructor(cli_name: string, description: string, version: Version, config?: Cli_config, args?: string[]) {
         this.opts = {};
         // Remove first 2 items from args array
-        this.cmd_args = process.argv.splice(2);
+        this.args = args || process.argv.splice(2);
         // Remove empty space
         this.executable_name = cli_name.replace(/\s/g, "");
         this.description = description;
@@ -118,13 +118,13 @@ export class Cli {
     public parse() {
         //  Check if args array is empty
         //  if true print help and return void
-        if (this.cmd_args.length == 0) {
+        if (this.args.length == 0) {
             this.help();
             process.exit(0);
         }
 
-        for (let i = 0; i < this.cmd_args.length; i++) {
-            let arg = this.cmd_args[i];
+        for (let i = 0; i < this.args.length; i++) {
+            let arg = this.args[i];
 
             if (arg == "--help" || arg == "-h") {
                 this.help();
