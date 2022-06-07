@@ -8,7 +8,7 @@ interface parsed {
 
 const cli = new Cli("cli-test", "just a test", "0.1.0", {
     verbose_parsing: true,
-});
+}, ["--test"]);
 
 cli.add_option({
     name: { long: "--test", short: "-t" },
