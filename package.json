@@ -1,5 +1,5 @@
 {
-    "name": "cmd-parser",
+    "name": "cmd-falcon",
     "version": "1.0.0",
     "description": "A simple args parser for cli apps",
     "main": "lib/index.js",
@@ -22,7 +22,7 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/senpai-10/cmd-parser.git"
+        "url": "git+https://github.com/senpai-10/cmd-falcon.git"
     },
     "keywords": [
         "cli",
@@ -37,9 +37,9 @@
     },
     "license": "MIT",
     "bugs": {
-        "url": "https://github.com/senpai-10/cmd-parser/issues"
+        "url": "https://github.com/senpai-10/cmd-falcon/issues"
     },
-    "homepage": "https://github.com/senpai-10/cmd-parser#readme",
+    "homepage": "https://github.com/senpai-10/cmd-falcon#readme",
     "devDependencies": {
         "@babel/core": "^7.17.10",
         "@babel/preset-env": "^7.17.10",
