@@ -1,25 +1,3 @@
-/*
-┌──────────────────────────────────────────────────────────────┐
-|                                                              |
-│    Terms:                                                    │
-│       Option                                                 |
-│           is an argv item that starts with '--' or '-'       |
-│           example: '--name=foo' '-n=foo'                     |
-|           parser.name equal to 'foo'                         |
-│                                                              |
-│       Argument                                               |
-|           is an item of information                          |
-|           provided to a program when it is started           |
-|                                                              |
-│       Flag                                                   |
-│           is an argv item that starts with '--' or '-'       |
-|            but don't take any type of value                  |
-|            example: '--test' '-t'                            |
-|            parser.test equal true if found                   |
-|                                                              |
-└──────────────────────────────────────────────────────────────┘
-*/
-
 // TODO obey by Terms
 //      add     add_flag
 //      add     add_argument
@@ -34,15 +12,18 @@ const default_cli_config: Cli_config = {
     verbose_parsing: false,
 };
 
-// TODO: parse arguments
-// add a new interface named Argument
-// add to Cli constructor args, args is an array if objects with type Argument
-// in parser method if cli_arg don't start with '-' or '--'
-// check if args is not empty if true
-// get first arg from args and then
-// run parsed_options[arg_name] = cli_arg
-// note: (arg_name) is from args first item
-// + maybe change parsed_options name to parsed or something like this
+/*
+    TODO:
+    parse arguments
+    add a new interface named Argument
+    add to Cli constructor args, args is an array if objects with type Argument
+    in parser method if cli_arg don't start with '-' or '--'
+    check if args is not empty if true
+    get first arg from args and then
+    run parsed_options[arg_name] = cli_arg
+    note: (arg_name) is from args first item
+    + maybe change parsed_options name to parsed or something like this
+*/
 
 export class Cli {
     public opts: any;
