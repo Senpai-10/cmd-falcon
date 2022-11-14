@@ -1,4 +1,4 @@
-import { Cli } from "./index";
+import { Cli } from './index';
 
 interface parsed {
     test: string;
@@ -6,25 +6,31 @@ interface parsed {
     name: string;
 }
 
-const cli = new Cli("cli-test", "just a test", "0.1.0", {
-    verbose_parsing: true,
-}, ["--test"]);
+const cli = new Cli(
+    'cli-test',
+    'just a test',
+    '0.1.0',
+    {
+        verbose_parsing: true,
+    },
+    ['--test'],
+);
 
 cli.add_option({
-    name: { long: "--test", short: "-t" },
+    name: { long: '--test', short: '-t' },
     is_flag: true,
-    description: "test option",
+    description: 'test option',
 })
     .add_option({
-        name: { long: "--verbose" },
+        name: { long: '--verbose' },
         is_flag: true,
-        description: "test option",
+        description: 'test option',
     })
     .add_option({
-        name: { long: "--name", short: "-n" },
+        name: { long: '--name', short: '-n' },
         is_flag: false,
-        default: "senpai-10",
-        description: "get username",
+        default: 'senpai-10',
+        description: 'get username',
     });
 
 cli.parse();

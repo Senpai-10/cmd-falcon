@@ -3,10 +3,10 @@
 //      add     add_argument
 //      change  add_option to only add options not flags
 
-import * as colors from "chalk";
-import { Cli_config, Option } from "./interfaces";
-import { Version } from "./types";
-import { find_option } from "./utils";
+import * as colors from 'chalk';
+import { Cli_config, Option } from './interfaces';
+import { Version } from './types';
+import { find_option } from './utils';
 
 const default_cli_config: Cli_config = {
     verbose_parsing: false,
@@ -39,7 +39,7 @@ export class Cli {
         // Remove first 2 items from args array
         this.args = args || process.argv.splice(2);
         // Remove empty space
-        this.executable_name = cli_name.replace(/\s/g, "");
+        this.executable_name = cli_name.replace(/\s/g, '');
         this.description = description;
         this.version = version;
         // Use default config if config parameter is not undefined
@@ -47,21 +47,21 @@ export class Cli {
 
         this.options = new Map();
         // Add default options help, version
-        this.options.set("help", {
+        this.options.set('help', {
             name: {
-                long: "--help",
-                short: "-h",
+                long: '--help',
+                short: '-h',
             },
             is_flag: true,
-            description: "Print this message and exit",
+            description: 'Print this message and exit',
         });
-        this.options.set("version", {
+        this.options.set('version', {
             name: {
-                long: "--version",
-                short: "-v",
+                long: '--version',
+                short: '-v',
             },
             is_flag: true,
-            description: "Print version number and exit",
+            description: 'Print version number and exit',
         });
     }
 
@@ -107,30 +107,30 @@ export class Cli {
         for (let i = 0; i < this.args.length; i++) {
             let arg = this.args[i];
 
-            if (arg == "--help" || arg == "-h") {
+            if (arg == '--help' || arg == '-h') {
                 this.help();
                 process.exit(0);
             }
-            if (arg == "--version" || arg == "-v") {
+            if (arg == '--version' || arg == '-v') {
                 console.log(`${colors.yellowBright(this.version)}`);
                 process.exit(0);
             }
 
             // TODO: refactor if arg.startsWith("--") and if arg.startsWith("-")
             // TODO: check if option/flag is required if true print '{option_name} is required' and exit with error code 1
-            if (arg.startsWith("--")) {
+            if (arg.startsWith('--')) {
                 arg = arg.substring(2);
-                let name = arg.split("=")[0];
-                var value = arg.split("=")[1];
+                let name = arg.split('=')[0];
+                var value = arg.split('=')[1];
 
-                let option = find_option(name, "long", this.options);
+                let option = find_option(name, 'long', this.options);
                 if (option == undefined) continue;
 
                 if (option.is_flag) {
                     this.opts[name] = true;
                 } else {
                     if (!value && !option.default) {
-                        console.log(`error: '${arg.split("=")[0]}' requires a value`);
+                        console.log(`error: '${arg.split('=')[0]}' requires a value`);
                         process.exit(1);
                     } else if (!value && option.default) {
                         this.opts[name] = option.default;
@@ -142,10 +142,10 @@ export class Cli {
                 }
 
                 continue;
-            } else if (arg.startsWith("-")) {
+            } else if (arg.startsWith('-')) {
                 // short option name without '-'
-                let value = arg.split("=")[1];
-                arg = arg.split("=")[0].substring(1);
+                let value = arg.split('=')[1];
+                arg = arg.split('=')[0].substring(1);
 
                 // Check if the flag length is > 1
                 // If true that means that the flag contains more flags (Like this: -tvpm)
@@ -156,7 +156,7 @@ export class Cli {
                 // note: options are not allowd in this compact form
                 if (arg.length > 1) {
                     for (const short_option of arg) {
-                        let option = find_option(short_option, "short", this.options);
+                        let option = find_option(short_option, 'short', this.options);
                         if (option == undefined) continue;
                         let name = option!.name.long.substring(2);
 
@@ -171,7 +171,7 @@ export class Cli {
                         this.opts[name] = true;
                     }
                 } else if (arg.length == 1) {
-                    let option = find_option(arg, "short", this.options);
+                    let option = find_option(arg, 'short', this.options);
                     if (option == undefined) continue;
                     let name = option!.name.long.substring(2);
 
@@ -179,7 +179,7 @@ export class Cli {
                         this.opts[name] = true;
                     } else {
                         if (!value && !option.default) {
-                            console.log(`error: '${arg.split("=")[0]}' requires a value`);
+                            console.log(`error: '${arg.split('=')[0]}' requires a value`);
                             process.exit(1);
                         } else if (!value && option.default) {
                             this.opts[name] = option.default;
@@ -205,16 +205,16 @@ export class Cli {
         console.log();
         console.log();
 
-        console.log(`${colors.greenBright("Options:")}`);
+        console.log(`${colors.greenBright('Options:')}`);
         for (const [_, value] of this.options.entries()) {
-            let short = (value.name.short && colors.yellowBright(value.name.short)) || "  ";
+            let short = (value.name.short && colors.yellowBright(value.name.short)) || '  ';
             let long_name = colors.yellowBright(value.name.long);
             let description = colors.gray(value.description);
 
             if (value.is_flag) {
-                console.log(`\t${short}, ${long_name}\t${colors.green("flag ")}\n\t\t${description}`);
+                console.log(`\t${short}, ${long_name}\t${colors.green('flag ')}\n\t\t${description}`);
             } else if (value.is_flag == false) {
-                let default_value = (value.default && `[default: ${value.default}] `) || "";
+                let default_value = (value.default && `[default: ${value.default}] `) || '';
                 console.log(`\t${short}, ${long_name}\t${default_value}\n\t\t${description}`);
             }
         }

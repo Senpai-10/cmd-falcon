@@ -1,4 +1,4 @@
-import { char } from "./types";
+import { char } from './types';
 
 export interface Option {
     name: {

@@ -1,80 +1,80 @@
-import { Cli } from "../src/index";
+import { Cli } from '../src/index';
 
-describe("cli", () => {
-    it("Cli init", () => {
+describe('cli', () => {
+    it('Cli init', () => {
         const cli = new Cli(
-            "cli-test",
-            "just a test",
-            "0.1.0",
+            'cli-test',
+            'just a test',
+            '0.1.0',
             {
                 verbose_parsing: true,
             },
-            ["-t"],
+            ['-t'],
         );
 
         expect(cli).toBeInstanceOf(Cli);
     });
 
-    it("Add options", () => {
+    it('Add options', () => {
         const cli = new Cli(
-            "cli-test",
-            "just a test",
-            "0.1.0",
+            'cli-test',
+            'just a test',
+            '0.1.0',
             {
                 verbose_parsing: true,
             },
-            ["-t"],
+            ['-t'],
         );
 
         cli.add_option({
-            name: { long: "--test", short: "-t" },
+            name: { long: '--test', short: '-t' },
             is_flag: true,
-            description: "test option",
+            description: 'test option',
         })
             .add_option({
-                name: { long: "--verbose" },
+                name: { long: '--verbose' },
                 is_flag: true,
-                description: "test option",
+                description: 'test option',
             })
             .add_option({
-                name: { long: "--name", short: "-n" },
+                name: { long: '--name', short: '-n' },
                 is_flag: false,
-                default: "senpai-10",
-                description: "get username",
+                default: 'senpai-10',
+                description: 'get username',
             });
     });
 
-    it("parse command line arguments", () => {
+    it('parse command line arguments', () => {
         const cli = new Cli(
-            "cli-test",
-            "just a test",
-            "0.1.0",
+            'cli-test',
+            'just a test',
+            '0.1.0',
             {
                 verbose_parsing: true,
             },
-            ["-n=testname", "-t", "--verbose"],
+            ['-n=testname', '-t', '--verbose'],
         );
 
         cli.add_option({
-            name: { long: "--test", short: "-t" },
+            name: { long: '--test', short: '-t' },
             is_flag: true,
-            description: "test option",
+            description: 'test option',
         })
             .add_option({
-                name: { long: "--verbose" },
+                name: { long: '--verbose' },
                 is_flag: true,
-                description: "verbose option",
+                description: 'verbose option',
             })
             .add_option({
-                name: { long: "--file-name", short: "-f" },
+                name: { long: '--file-name', short: '-f' },
                 is_flag: false,
-                description: "file-name option",
+                description: 'file-name option',
             })
             .add_option({
-                name: { long: "--name", short: "-n" },
+                name: { long: '--name', short: '-n' },
                 is_flag: false,
-                default: "senpai-10",
-                description: "get username",
+                default: 'senpai-10',
+                description: 'get username',
             });
 
         cli.parse();
@@ -87,7 +87,7 @@ describe("cli", () => {
 
         let opts: parsed = cli.opts;
 
-        expect(opts.name).toBe("testname");
+        expect(opts.name).toBe('testname');
         expect(opts.test).toBeTruthy();
         expect(opts.verbose).toBeTruthy();
     });
