@@ -4,13 +4,9 @@
 //      change  add_option to only add options not flags
 
 import * as colors from 'chalk';
-import { Cli_config, Option } from './interfaces';
+import { Option } from './interfaces';
 import { Version } from './types';
 import { find_option } from './utils';
-
-const default_cli_config: Cli_config = {
-    verbose_parsing: false,
-};
 
 /*
     TODO:
@@ -32,9 +28,8 @@ export class Cli {
     private readonly executable_name: string;
     private readonly description: string;
     private readonly version: Version;
-    private config: Cli_config;
 
-    constructor(cli_name: string, description: string, version: Version, config?: Cli_config, args?: string[]) {
+    constructor(cli_name: string, description: string, version: Version, args?: string[]) {
         this.opts = {};
         // Remove first 2 items from args array
         this.args = args || process.argv.splice(2);
@@ -42,8 +37,6 @@ export class Cli {
         this.executable_name = cli_name.replace(/\s/g, '');
         this.description = description;
         this.version = version;
-        // Use default config if config parameter is not undefined
-        this.config = config || default_cli_config;
 
         this.options = new Map();
         // Add default options help, version

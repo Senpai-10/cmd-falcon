@@ -16,7 +16,3 @@ export interface Option {
     description: string;
 }
 
-export interface Cli_config {
-    /** Print parser info */
-    verbose_parsing: boolean;
-}
