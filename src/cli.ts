@@ -52,7 +52,7 @@ export class Cli {
         // Remove empty space
         this.program = program.replace(/\s/g, '');
         this.description = description;
-        this.epilog = epilog;
+        this.epilog = epilog || "";
         this.version = version;
 
         this.options = new Map();
