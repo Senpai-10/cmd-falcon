@@ -1,14 +1,23 @@
-import { Cli_config, Option } from './interfaces';
+import { Option } from './interfaces';
 import { Version } from './types';
 export declare class Cli {
     opts: any;
     private args;
     private options;
-    private readonly executable_name;
+    private readonly program;
     private readonly description;
+    private readonly epilog;
     private readonly version;
-    private config;
-    constructor(cli_name: string, description: string, version: Version, config?: Cli_config, args?: string[]);
+    constructor({ program, description, epilog, version, args, }: {
+        /** The name of the program */
+        program: string;
+        description: string;
+        /** Text to display after help message */
+        epilog?: string;
+        version: Version;
+        /** provide args (default: process.argv.splice(2)) */
+        args?: string[];
+    });
     /** Option is an argument that starts with  '--' (long option) or '-' (short option)
      * Option example: "--test", "-t"
      * @usage
