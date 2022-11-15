@@ -8,7 +8,6 @@
         "lib/**/*"
     ],
     "scripts": {
-        "cli-test": "ts-node ./src/cli_test.ts",
         "build": "tsc",
         "dev": "tsc-watch",
         "test": "jest",
