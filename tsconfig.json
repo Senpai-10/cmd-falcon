@@ -4,7 +4,8 @@
         "module": "commonjs",
         "declaration": true,
         "types": [
-            "node"
+            "node",
+            "jest"
         ],
         "outDir": "./lib",
         "strict": true
