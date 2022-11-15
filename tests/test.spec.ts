@@ -2,29 +2,23 @@ import { Cli } from '../src/index';
 
 describe('cli', () => {
     it('Cli init', () => {
-        const cli = new Cli(
-            'cli-test',
-            'just a test',
-            '0.1.0',
-            {
-                verbose_parsing: true,
-            },
-            ['-t'],
-        );
+        const cli = new Cli({
+            program: 'cli-test',
+            description: 'just a test',
+            version: '0.1.0',
+            args: ['-t'],
+        });
 
         expect(cli).toBeInstanceOf(Cli);
     });
 
     it('Add options', () => {
-        const cli = new Cli(
-            'cli-test',
-            'just a test',
-            '0.1.0',
-            {
-                verbose_parsing: true,
-            },
-            ['-t'],
-        );
+        const cli = new Cli({
+            program: 'cli-test',
+            description: 'just a test',
+            version: '0.1.0',
+            args: ['-t'],
+        });
 
         cli.add_option({
             name: { long: '--test', short: '-t' },
@@ -45,15 +39,12 @@ describe('cli', () => {
     });
 
     it('parse command line arguments', () => {
-        const cli = new Cli(
-            'cli-test',
-            'just a test',
-            '0.1.0',
-            {
-                verbose_parsing: true,
-            },
-            ['-n=testname', '-t', '--verbose'],
-        );
+        const cli = new Cli({
+            program: 'cli-test',
+            description: 'just a test',
+            version: '0.1.0',
+            args: ['-n=testname', '-t', '--verbose'],
+        });
 
         cli.add_option({
             name: { long: '--test', short: '-t' },
