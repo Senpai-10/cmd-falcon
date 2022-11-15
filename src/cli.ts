@@ -41,7 +41,7 @@ export class Cli {
         program: string;
         description: string;
         /** Text to display after help message */
-        epilog: string;
+        epilog?: string;
         version: Version;
         /** provide args (default: process.argv.splice(2)) */
         args?: string[];
