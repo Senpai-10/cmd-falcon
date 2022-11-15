@@ -25,17 +25,34 @@ export class Cli {
     public opts: any;
     private args: string[];
     private options: Map<string, Option>;
-    private readonly executable_name: string;
+    private readonly program: string;
     private readonly description: string;
+    private readonly epilog: string;
     private readonly version: Version;
 
-    constructor(cli_name: string, description: string, version: Version, args?: string[]) {
+    constructor({
+        program,
+        description,
+        epilog,
+        version,
+        args,
+    }: {
+        /** The name of the program */
+        program: string;
+        description: string;
+        /** Text to display after help message */
+        epilog: string;
+        version: Version;
+        /** provide args (default: process.argv.splice(2)) */
+        args?: string[];
+    }) {
         this.opts = {};
         // Remove first 2 items from args array
         this.args = args || process.argv.splice(2);
         // Remove empty space
-        this.executable_name = cli_name.replace(/\s/g, '');
+        this.program = program.replace(/\s/g, '');
         this.description = description;
+        this.epilog = epilog;
         this.version = version;
 
         this.options = new Map();
@@ -191,7 +208,7 @@ export class Cli {
 
     /** Print help message */
     private help(): void {
-        console.log(`Usage: ${this.executable_name} [options]`);
+        console.log(`Usage: ${this.program} [options]`);
         console.log();
         console.log(`  ${colors.gray(this.description)}`);
 
@@ -211,5 +228,8 @@ export class Cli {
                 console.log(`\t${short}, ${long_name}\t${default_value}\n\t\t${description}`);
             }
         }
+
+        console.log()
+        console.log(`${colors.gray(this.epilog)}`)
     }
 }
