@@ -1,12 +1,6 @@
 import 'jest';
 import { Cli } from '../src/index';
 
-interface parsed {
-    test: string;
-    verbose: string;
-    name: string;
-}
-
 describe('cli', () => {
     it('Cli init', () => {
         const cli = new Cli({
@@ -77,6 +71,11 @@ describe('cli', () => {
 
         cli.parse();
 
+        interface parsed {
+            test: string;
+            verbose: string;
+            name: string;
+        }
         let opts: parsed = cli.opts;
 
         expect(opts.name).toBe('testname');
