@@ -1,5 +1,4 @@
 import { char } from './types';
-
 export interface Option {
     name: {
         /** @example '--test' */
@@ -15,4 +14,3 @@ export interface Option {
     /** Add a short description for your option/flag */
     description: string;
 }
-
