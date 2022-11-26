@@ -5,7 +5,6 @@
 
 import * as colors from 'chalk';
 import { Option } from './interfaces';
-import { Version } from './types';
 import { find_option } from './utils';
 
 /*
@@ -28,7 +27,7 @@ export class Cli {
     private readonly program: string;
     private readonly description: string;
     private readonly epilog: string;
-    private readonly version: Version;
+    private readonly version: string;
 
     constructor({
         program,
@@ -42,7 +41,7 @@ export class Cli {
         description: string;
         /** Text to display after help message */
         epilog?: string;
-        version: Version;
+        version: string;
         /** provide args (default: process.argv.splice(2)) */
         args?: string[];
     }) {
