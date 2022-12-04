@@ -1,5 +1,5 @@
 import * as colors from 'chalk';
-import { Option } from './interfaces';
+import { Flag, Option } from './interfaces';
 import { find_option } from './utils';
 
 /*
@@ -17,8 +17,9 @@ import { find_option } from './utils';
 
 export class Cli {
     public opts: any;
-    private args: string[];
+    private cli_args: string[];
     private options: Map<string, Option>;
+    private flags: Map<string, Flag>;
     private readonly program: string;
     private readonly description: string;
     private readonly epilog: string;
@@ -42,42 +43,32 @@ export class Cli {
     }) {
         this.opts = {};
         // Remove first 2 items from args array
-        this.args = args || process.argv.splice(2);
+        this.cli_args = args || process.argv.splice(2);
         // Remove empty space
         this.program = program.replace(/\s/g, '');
         this.description = description;
-        this.epilog = epilog || "";
+        this.epilog = epilog || '';
         this.version = version;
 
+        this.flags = new Map();
         this.options = new Map();
         // Add default options help, version
-        this.options.set('help', {
+        this.flags.set('help', {
             name: {
                 long: '--help',
                 short: '-h',
             },
-            is_flag: true,
-            description: 'Print this message and exit',
+            help: 'Print this message and exit',
         });
-        this.options.set('version', {
+        this.flags.set('version', {
             name: {
                 long: '--version',
                 short: '-v',
             },
-            is_flag: true,
-            description: 'Print version number and exit',
+            help: 'Print version number and exit',
         });
     }
 
-    /** Option is an argument that starts with  '--' (long option) or '-' (short option)
-     * Option example: "--test", "-t"
-     * @usage
-     *      cli.add_option({
-     *          name: { long: "--test", short: "-t" },
-     *          is_flag: true,
-     *          description: "test option",
-     *      })
-     */
     public add_option(option: Option) {
         // TODO: also check if short name does already exists
         // Remove '--' from option long name
@@ -89,6 +80,14 @@ export class Cli {
         }
 
         this.options.set(long_name, option);
+        return this;
+    }
+
+    // register a flag
+    public add_flag(flag_opts: Flag) {
+        let long_name = flag_opts.name.long.substring(2);
+
+        this.flags.set(long_name, flag_opts);
         return this;
     }
 
@@ -106,6 +105,8 @@ export class Cli {
 
     /** Print help message */
     private help(): void {
+        // TODO: Rewrite help command
+
         console.log(`Usage: ${this.program} [options]`);
         console.log();
         console.log(`  ${colors.gray(this.description)}`);
@@ -113,21 +114,21 @@ export class Cli {
         console.log();
         console.log();
 
-        console.log(`${colors.greenBright('Options:')}`);
-        for (const [_, value] of this.options.entries()) {
-            let short = (value.name.short && colors.yellowBright(value.name.short)) || '  ';
-            let long_name = colors.yellowBright(value.name.long);
-            let description = colors.gray(value.description);
+        // console.log(`${colors.greenBright('Options:')}`);
+        // for (const [_, value] of this.options.entries()) {
+        //     let short = (value.name.short && colors.yellowBright(value.name.short)) || '  ';
+        //     let long_name = colors.yellowBright(value.name.long);
+        //     let description = colors.gray(value.description);
 
-            if (value.is_flag) {
-                console.log(`\t${short}, ${long_name}\t${colors.green('flag ')}\n\t\t${description}`);
-            } else if (value.is_flag == false) {
-                let default_value = (value.default && `[default: ${value.default}] `) || '';
-                console.log(`\t${short}, ${long_name}\t${default_value}\n\t\t${description}`);
-            }
-        }
+        //     if (value.is_flag) {
+        //         console.log(`\t${short}, ${long_name}\t${colors.green('flag ')}\n\t\t${description}`);
+        //     } else if (value.is_flag == false) {
+        //         let default_value = (value.default && `[default: ${value.default}] `) || '';
+        //         console.log(`\t${short}, ${long_name}\t${default_value}\n\t\t${description}`);
+        //     }
+        // }
 
-        console.log()
-        console.log(`${colors.gray(this.epilog)}`)
+        console.log();
+        console.log(`${colors.gray(this.epilog)}`);
     }
 }

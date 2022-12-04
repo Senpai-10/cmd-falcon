@@ -7,12 +7,30 @@ export interface Option {
         /** @example '-t' */
         short?: `-${char}` | undefined;
     };
-    /** If true the option value is boolean */
-    is_flag: boolean;
     required?: boolean;
     /** Default value for options if value is not found */
     default?: string;
-    /** Add a short description for your option/flag */
-    description: string;
+    /** Add a short help description for your option/flag */
+    help: string;
+}
+
+export interface Flag {
+    /** Flag name */
+    name: {
+        /** @example '--test' */
+        long: `--${string}`;
+        /** @example '-t' */
+        short?: `-${char}` | undefined;
+    };
+    type?: FlagType | undefined
+    /** Add a short help description for your option/flag */
+    help: string;
+}
+
+export enum FlagType {
+    /** Flag return a number */
+    Counter,
+    /** Default flag behaviour */
+    Bool
 }
 
