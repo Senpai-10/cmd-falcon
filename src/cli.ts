@@ -1,8 +1,3 @@
-// TODO obey by Terms
-//      add     add_flag
-//      add     add_argument
-//      change  add_option to only add options not flags
-
 import * as colors from 'chalk';
 import { Option } from './interfaces';
 import { find_option } from './utils';
